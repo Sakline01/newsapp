@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>newsapp</title>
+    <style>
+        *{
+            margin: 0px;
+            padding: 0px;
+        }
+        .container{
+            height: 2000px;
+            width: 55%;
+            margin: auto;
+        }
+        .headlines{
+            height: 9.35%;
+            margin-bottom: 1%;
+            width: 100%;
+            display: flex;
+            border: rgb(1, 11, 53) solid 1px;
+        }
+        .left{
+            height: 100%;
+            width: 70%;
+            margin-right: 2px;
+        }
+        .right{
+            height: 100%;
+            width: 30%;
+        }
+        .left>h2,.left>h5{
+            padding: 5px;
+            margin-bottom: 10px;
+        }
+        .right>img{
+            height: 100%;
+            width: 100%;
+        }
+        .left>div{
+            display: flex;
+            column-gap: 15px;
+            padding: 5px;
+        }
+        .fullarticle{
+            height: 10px;
+            width: 80px;
+            margin-left: 5px;
+            font: bold 11px Arial;
+            text-decoration: none;
+            background-color: #2354f3;
+            color: #ffffff;
+            padding: 2px 6px 2px 6px;
+            border-top: 1px solid #CCCCCC;
+            border-right: 1px solid #333333;
+            border-bottom: 1px solid #333333;
+            border-left: 1px solid #CCCCCC;
+        }
+        .nav{
+            height: 50px;
+            width: 100%;
+            background: #7d98f3;
+            border: #4b4a4ad7 solid 1px;
+            margin-bottom: 20px;
+            display: flex;
+            position: sticky;
+            top: 0;
+        }
+        .nav>ul{
+            height: 100%;
+            width: 90%;
+            display: flex;
+            flex-direction: row-reverse;
+        }
+        .nav li{
+            height: 40%;
+            width: 10%;
+            padding: 15px;
+            list-style: none;
+        }
+        .nav li:hover{
+            border-bottom: orangered solid 3px;
+        }
+        a{
+            height: 100%;
+            width: 50%;
+            margin-left: 50%;
+            text-decoration: none;
+            color: white;
+            cursor: pointer;
+        }
+        .headline{
+            width: 10%;
+            padding: 5px;
+            text-align: center;
+            border-bottom: paleturquoise solid 2px;
+        }
+        .nav>input{
+            height: 50%;
+            margin-top: 10px;
+            margin-right: 5px;
+            border: white solid 1px;
+            border-radius: 5%;
+        }
+        .nav>button{
+            height: 50%;
+            width: 8%;
+            margin-top: 10px;
+            background: turquoise;
+            border-style: none;
+            cursor: pointer;
+        }
+        .loader {
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid blue;
+  border-right: 16px solid green;
+  border-bottom: 16px solid red;
+  width: 120px;
+  margin: auto;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+}
+
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+    </style>
+</head>
+<body>
+
+    <nav class="nav">
+        <h2 class="headline">Headlines</h2>
+        <input type="text" name="" id="search" placeholder="search here">
+        <button id="find">search</button>
+        <ul>
+            <li><a href="./sports.html">Sports</a></li>
+            <li><a href="./entertainment.html">entertainment</a></li>
+            <li><a href="./technology.html">Technology</a></li>
+        </ul>
+    </nav>
+
+    <div class="loader" id="load"></div>
+
+<div class="container" id="main">
+
+</div>
+
+   <script>
+       //api key
+       //46bb7b2770ff405db3371c4778ca3501
+       var url = 'https://newsapi.org/v2/top-headlines?' +
+          'country=in&' +
+          'category=entertainment&'+
+          'apiKey=46bb7b2770ff405db3371c4778ca3501';
+var req = new Request(url);
+fetch(req)
+    .then(function(response) {
+        document.getElementById("load").style.display="none";
+        return response.json();
+    })
+    .then(
+        (data)=>{
+            console.log( data.articles);
+            let articles=data.articles;
+            for (let i = 0; i <10; i++) {
+                showdata(articles[i]);
+            }
+        }
+    )
+    const showdata= (arrOfObj)=>{
+        let div=document.createElement("div");
+        let indiv1=document.createElement("div")
+        indiv1.setAttribute("class","left");
+        let indiv2=document.createElement("div")
+        indiv2.setAttribute("class","right");
+        div.setAttribute("class","headlines");
+        let h2=document.createElement("h2");
+        h2.textContent=arrOfObj.title;
+        let p=document.createElement("p");
+        p.textContent=`${arrOfObj.source.name}.`
+        let p1=document.createElement("p");
+        var date=arrOfObj.publishedAt
+        var post=`${date.slice(0,10)} ${date.slice(11,16)}`
+        p1.textContent=post;
+        let div3=document.createElement("div");
+        div3.append(p,p1);
+        let content=document.createElement("h5");
+        content.textContent=arrOfObj.description;
+        let btn=document.createElement("a");
+        btn.textContent="View full Coverage";
+        btn.href=arrOfObj.url;
+        btn.target="_blank"
+        btn.setAttribute("class","fullarticle");
+        indiv1.append(h2,div3,content,btn);
+        let img=document.createElement("img");
+        if (String(arrOfObj.urlToImage)=="null") {
+            img.src="https://firstlease.in/storage/media/no-image-available.png"
+        }
+        else{
+            img.src=arrOfObj.urlToImage;
+            img.alt="Image unavailabe";
+        }
+        indiv2.append(img);
+        div.append(indiv1,indiv2);
+        document.getElementById("main").append(div);
+    }
+    document.getElementById("find").addEventListener("click",()=>{
+        let search=document.getElementById("search");
+        console.log(search.value);
+        localStorage.setItem("search",search.value);
+        location.replace("./searchresult.html");
+    })
+   </script> 
+</body>
+</html>
