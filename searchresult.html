@@ -139,7 +139,7 @@
 <body>
 
     <nav class="nav">
-        <h2 class="headline">Headlines</h2>
+        <h2 class="headline" id="head">Headlines</h2>
         <input type="text" name="" id="search" placeholder="search here">
         <button id="find">search</button>
         <ul>
@@ -158,7 +158,9 @@
    <script>
        //api key
        //46bb7b2770ff405db3371c4778ca3501
+       
        let searchitem=localStorage.getItem("search");
+       document.getElementById("head").textContent=searchitem;
        var url = 'https://newsapi.org/v2/everything?' +
           `q=${searchitem}&`+
           'apiKey=46bb7b2770ff405db3371c4778ca3501';
