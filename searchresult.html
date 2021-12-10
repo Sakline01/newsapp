@@ -177,10 +177,10 @@
        const fetching=()=>{
         document.getElementById("main").innerHTML="";
            document.getElementById("head").textContent=searchitem;
-           var url = 'https://newsapi.org/v2/everything?' +
+           var url = 'https://gnews.io/api/v4/search?' +
               `q=${searchitem}&`+
-              'pageSize=50&'+
-              'apiKey=46bb7b2770ff405db3371c4778ca3501';
+              'max=50&'+
+              'token=5a3587ad78172018733ee3bf44e47fc8&lang=en';
     var req = new Request(url);
     localStorage.removeItem("search")
     fetch(req)
@@ -228,11 +228,11 @@
         btn.setAttribute("class","fullarticle");
         indiv1.append(h2,div3,content,btn);
         let img=document.createElement("img");
-        if (String(arrOfObj.urlToImage)=="null") {
+        if (String(arrOfObj.image)=="null") {
             img.src="https://firstlease.in/storage/media/no-image-available.png"
         }
         else{
-            img.src=arrOfObj.urlToImage;
+            img.src=arrOfObj.image;
             img.alt="Image unavailabe";
         }
         indiv2.append(img);

@@ -159,10 +159,10 @@
        //api key
        //46bb7b2770ff405db3371c4778ca3501
        document.getElementById("head").textContent="Sports";
-       var url = 'https://newsapi.org/v2/top-headlines?' +
-          'country=in&' +
-          'category=sports&'+
-          'apiKey=46bb7b2770ff405db3371c4778ca3501';
+       var url = 'https://gnews.io/api/v4/search?' +
+              `q=sports&`+
+              'max=50&'+
+              'token=5a3587ad78172018733ee3bf44e47fc8&lang=en';
 var req = new Request(url);
 fetch(req)
     .then(function(response) {
@@ -204,11 +204,11 @@ fetch(req)
         btn.setAttribute("class","fullarticle");
         indiv1.append(h2,div3,content,btn);
         let img=document.createElement("img");
-        if (String(arrOfObj.urlToImage)=="null") {
+        if (String(arrOfObj.image)=="null") {
             img.src="https://firstlease.in/storage/media/no-image-available.png"
         }
         else{
-            img.src=arrOfObj.urlToImage;
+            img.src=arrOfObj.image;
             img.alt="Image unavailabe";
         }
         indiv2.append(img);
